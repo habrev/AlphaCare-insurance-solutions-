@@ -4,3 +4,5 @@ assets/
 data/MachineLearningRating_v3.txt
 
 .dvc/
+
+data/files/
