@@ -61,6 +61,7 @@ def calculate_kpis(data, segmentation_feature):
 # Sample usage
 if __name__ == '__main__':
 
+
     # Insert the feature for segmentation manually in the notebook
     # Replace 'FeatureX' with the name of the feature you want to use for segmentation
     segmentation_feature = 'FeatureX'  # Insert your specific feature here
