@@ -1,18 +1,18 @@
 import pandas as pd
 
 def calculate_kpis(data, segmentation_feature):
-    """
-    This function calculates various KPIs for Risk and Margin differences
-    based on data segmentation into Group A (Control) and Group B (Test).
+    
+    # Handle missing values in the dataset
+    data['TotalClaims'] = data['TotalClaims'].fillna(0)
+    data['TotalPremium'] = data['TotalPremium'].fillna(1e-10)  # Avoid division by 0
 
-    Parameters:
-    - data: The input DataFrame containing the data.
-    - segmentation_feature: The feature used for segmenting the data into Group A and Group B.
-    
-    Returns:
-    - A dictionary containing the KPIs for Risk and Margin across Provinces, Zip Codes, and Gender.
-    """
-    
+    # Replace 0 in TotalPremium to prevent division by zero
+    data['TotalPremium'] = data['TotalPremium'].replace(0, 1e-10)
+
+    # Add calculated columns for ClaimFrequency and LossRatio
+    data['ClaimFrequency'] = data['TotalClaims'] / data['TotalPremium']
+    data['LossRatio'] = data['TotalClaims'] / data['TotalPremium']
+
     # Segment data into Group A (Control) and Group B (Test) based on the feature
     data['Group'] = data[segmentation_feature].apply(lambda x: 'B' if x else 'A')
 
