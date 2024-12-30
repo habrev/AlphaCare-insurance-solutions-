@@ -13,8 +13,11 @@ def calculate_kpis(data, segmentation_feature):
     data['ClaimFrequency'] = data['TotalClaims'] / data['TotalPremium']
     data['LossRatio'] = data['TotalClaims'] / data['TotalPremium']
 
-    # Segment data into Group A (Control) and Group B (Test) based on the feature
-    data['Group'] = data[segmentation_feature].apply(lambda x: 'B' if x else 'A')
+    # Clean and map segmentation feature
+    valid_genders = ['Male', 'Female']  # Define valid gender values
+    data = data[data[segmentation_feature].isin(valid_genders)]  # Filter valid genders
+    mapping = {'Female': 'A', 'Male': 'B'}  # Map Female -> A, Male -> B
+    data['Group'] = data[segmentation_feature].map(mapping)
 
     # 1. Risk Differences Across Provinces
     province_kpis = data.groupby(['Group', 'Province']).agg(
